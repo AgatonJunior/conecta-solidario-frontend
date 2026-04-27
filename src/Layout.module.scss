@@ -1,0 +1,17 @@
+@use './styles/variables' as *;
+
+.layout { display: flex; min-height: 100vh; }
+
+.main {
+  flex: 1;
+  margin-left: $sidebar-w;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  background: $cream;
+  &.collapsed { margin-left: $sidebar-col; }
+  @media (max-width: 1024px) { margin-left: 0; }
+}
+
+.content { flex: 1; }

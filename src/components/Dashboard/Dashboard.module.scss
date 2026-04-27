@@ -1,0 +1,192 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page { padding: $space-6; animation: fadeUp 0.3s ease; }
+
+// KPIs
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-4;
+  margin-bottom: $space-6;
+  @include tablet { grid-template-columns: repeat(2, 1fr); }
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.kpiCard {
+  @include card($space-5);
+  @include hover-lift;
+  position: relative;
+  overflow: hidden;
+
+  // Barra de cor no topo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: $radius-lg $radius-lg 0 0;
+  }
+  // Detalhe decorativo
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    opacity: 0.04;
+  }
+
+  &.green {
+    &::before { background: linear-gradient(90deg, $green-bright, $green-mid); }
+    &::after  { background: $green-bright; }
+    .kpiIcon  { background: $green-pale; }
+  }
+  &.orange {
+    &::before { background: linear-gradient(90deg, $orange-light, $orange); }
+    &::after  { background: $orange; }
+    .kpiIcon  { background: $orange-pale; }
+  }
+  &.teal {
+    &::before { background: linear-gradient(90deg, #4dd0c4, #2c9e98); }
+    &::after  { background: #4dd0c4; }
+    .kpiIcon  { background: #e6fffa; }
+  }
+  &.purple {
+    &::before { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+    &::after  { background: #a78bfa; }
+    .kpiIcon  { background: #f5f3ff; }
+  }
+}
+
+.kpiTop {
+  @include flex(row, flex-start, space-between);
+  margin-bottom: $space-4;
+}
+
+.kpiIcon {
+  width: 44px; height: 44px;
+  border-radius: $radius-md;
+  @include flex-center;
+  font-size: 22px;
+}
+
+.kpiDelta {
+  font-size: $text-xs;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: $radius-full;
+  &.up   { background: $success-pale; color: $success; }
+  &.down { background: $danger-pale;  color: $danger;  }
+  &.neu  { background: $sand;         color: $gray-mid; }
+}
+
+.kpiValue {
+  font-family: $font-display;
+  font-size: $text-3xl;
+  font-weight: 900;
+  color: $green-deep;
+  line-height: 1;
+  margin-bottom: $space-1;
+  letter-spacing: -0.03em;
+}
+
+.kpiLabel {
+  font-size: $text-xs;
+  color: $gray-mid;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+}
+
+// Bottom grid
+.grid2 {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: $space-4;
+  @include tablet { grid-template-columns: 1fr; }
+}
+
+.widget {
+  @include card;
+}
+
+.widgetHeader {
+  @include flex(row, center, space-between);
+  margin-bottom: $space-5;
+
+  h3 {
+    font-family: $font-display;
+    font-size: $text-lg;
+    font-weight: 700;
+    color: $green-deep;
+  }
+}
+
+.wBadge {
+  font-size: $text-xs;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: $radius-full;
+  background: $green-pale;
+  color: $green-mid;
+}
+
+// Gráfico de barras
+.chartWrap {
+  @include flex(row, flex-end, flex-start, $space-2);
+  height: 130px;
+  margin-bottom: $space-3;
+  padding-bottom: $space-1;
+  border-bottom: 1.5px solid $sand;
+}
+
+.bar {
+  flex: 1;
+  border-radius: $radius-sm $radius-sm 0 0;
+  transition: opacity $transition, transform $transition;
+  cursor: pointer;
+
+  &:hover { opacity: 0.75; transform: scaleY(1.02); transform-origin: bottom; }
+
+  &.barMain { background: linear-gradient(180deg, $green-bright, $green-mid); }
+  &.barAlt  { background: $green-light; }
+  &.barWarn { background: linear-gradient(180deg, $orange-light, $orange); }
+}
+
+.chartLabels {
+  display: flex;
+  gap: $space-2;
+  span { flex: 1; text-align: center; font-size: $text-xs; color: $gray-light; }
+}
+
+// Lista de atividade
+.actList { display: flex; flex-direction: column; }
+
+.actItem {
+  @include flex(row, flex-start, flex-start, $space-3);
+  padding: $space-3 0;
+  border-bottom: 1px solid $sand;
+  &:last-child { border-bottom: none; }
+}
+
+.actDot {
+  width: 8px; height: 8px;
+  border-radius: $radius-full;
+  margin-top: 5px;
+  flex-shrink: 0;
+  &.green  { background: $green-bright; box-shadow: 0 0 6px rgba($green-bright, 0.5); }
+  &.orange { background: $orange;       box-shadow: 0 0 6px rgba($orange, 0.4); }
+}
+
+.actText {
+  flex: 1;
+  p    { font-size: $text-sm; color: $charcoal; line-height: 1.4; }
+}
+
+.actTime {
+  font-size: $text-xs;
+  color: $gray-light;
+  white-space: nowrap;
+  margin-top: 2px;
+}

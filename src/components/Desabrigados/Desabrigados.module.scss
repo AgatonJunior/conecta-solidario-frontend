@@ -1,0 +1,104 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page { padding: $space-6; animation: fadeUp 0.3s ease; }
+
+.topBar {
+  @include flex(row, center, space-between);
+  margin-bottom: $space-6;
+}
+
+.pageTitle {
+  font-family: $font-display;
+  font-size: $text-2xl;
+  font-weight: 900;
+  color: $green-deep;
+  letter-spacing: -0.02em;
+  span { color: $orange; font-style: italic; }
+}
+
+.tableWrap {
+  background: $white;
+  border-radius: $radius-lg;
+  border: 1px solid $sand;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr { background: $cream; border-bottom: 1px solid $sand; }
+
+  th {
+    padding: $space-3 $space-5;
+    text-align: left;
+    font-size: $text-xs;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $gray-mid;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid lighten($sand, 5%);
+    transition: background $transition;
+    &:last-child { border-bottom: none; }
+    &:hover { background: lighten($cream, 2%); }
+  }
+
+  td {
+    padding: $space-4 $space-5;
+    font-size: $text-sm;
+    color: $charcoal;
+    vertical-align: middle;
+  }
+}
+
+.nome { font-weight: 600; color: $green-deep; margin-bottom: 2px; }
+.tel  { font-size: $text-xs; color: $gray-mid; }
+
+.pessoas {
+  @include flex(row, center, flex-start, $space-2);
+  span {
+    font-family: $font-display;
+    font-size: $text-lg;
+    font-weight: 900;
+    color: $green-deep;
+  }
+  small { font-size: $text-xs; color: $gray-mid; }
+}
+
+.abrigoBadge {
+  display: inline-flex; align-items: center; gap: $space-1;
+  background: $green-pale;
+  color: $green-mid;
+  font-size: $text-xs;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  border: 1px solid $green-light;
+}
+
+.data { font-size: $text-xs; color: $gray-mid; }
+
+.saidaBtn {
+  background: $orange-pale;
+  color: $orange;
+  border: 1.5px solid lighten($orange, 20%);
+  border-radius: $radius-md;
+  padding: $space-2 $space-4;
+  font-family: $font-body;
+  font-size: $text-xs;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover { background: $orange; color: $white; border-color: $orange; transform: translateX(2px); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+}
+
+.empty { text-align: center; padding: $space-10; color: $gray-light; font-size: $text-sm; }
+
+.btnPrimary { @include btn-primary; }

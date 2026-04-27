@@ -1,0 +1,124 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page { padding: $space-6; animation: fadeUp 0.3s ease; }
+
+.topBar {
+  @include flex(row, center, space-between);
+  margin-bottom: $space-6;
+}
+
+.pageTitle {
+  font-family: $font-display;
+  font-size: $text-2xl;
+  font-weight: 900;
+  color: $green-deep;
+  letter-spacing: -0.02em;
+  span { color: $green-bright; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: $space-4;
+}
+
+.card {
+  @include card;
+  @include hover-lift;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeUp 0.35s ease forwards;
+}
+
+.cardTop {
+  @include flex(row, flex-start, space-between);
+  margin-bottom: $space-4;
+}
+
+.avatar {
+  width: 52px; height: 52px;
+  border-radius: $radius-lg;
+  @include flex-center;
+  font-family: $font-display;
+  font-size: $text-xl;
+  font-weight: 900;
+  color: $white;
+  flex-shrink: 0;
+
+  &.c0 { background: linear-gradient(135deg, $green-bright, $green-deep); box-shadow: 0 4px 14px rgba($green-mid, 0.3); }
+  &.c1 { background: linear-gradient(135deg, $orange-light, $orange); box-shadow: 0 4px 14px rgba($orange, 0.3); }
+  &.c2 { background: linear-gradient(135deg, #4dd0c4, #2c7a7b); box-shadow: 0 4px 14px rgba(#4dd0c4, 0.3); }
+  &.c3 { background: linear-gradient(135deg, #a78bfa, #7c3aed); box-shadow: 0 4px 14px rgba(#a78bfa, 0.3); }
+}
+
+.availBadge {
+  font-size: $text-xs; font-weight: 700;
+  padding: 4px 10px; border-radius: $radius-full;
+  &.yes { background: $success-pale; color: $success; }
+  &.no  { background: $sand; color: $gray-mid; }
+}
+
+.name {
+  font-family: $font-display;
+  font-size: $text-lg;
+  font-weight: 700;
+  color: $green-deep;
+  margin-bottom: $space-1;
+}
+
+.meta {
+  font-size: $text-xs;
+  color: $gray-mid;
+  margin-bottom: $space-4;
+}
+
+.skills {
+  @include flex(row, center, flex-start, $space-1);
+  flex-wrap: wrap;
+  margin-bottom: $space-4;
+}
+
+.skill {
+  background: $green-pale;
+  color: $green-mid;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: $radius-full;
+  border: 1px solid $green-light;
+}
+
+.cardFooter {
+  @include flex(row, center, space-between);
+  padding-top: $space-3;
+  border-top: 1px solid $sand;
+}
+
+.contact { font-size: $text-xs; color: $gray-mid; }
+
+.toggleBtn {
+  font-size: $text-xs;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: $radius-full;
+  border: 1.5px solid;
+  cursor: pointer;
+  transition: all $transition;
+  font-family: $font-body;
+
+  &.disponivel {
+    background: $success-pale;
+    color: $success;
+    border-color: $green-light;
+    &:hover { background: $success; color: $white; }
+  }
+  &.indisponivel {
+    background: $sand;
+    color: $gray-mid;
+    border-color: $sand-dark;
+    &:hover { background: $green-mid; color: $white; border-color: $green-mid; }
+  }
+}
+
+.btnPrimary { @include btn-primary; }

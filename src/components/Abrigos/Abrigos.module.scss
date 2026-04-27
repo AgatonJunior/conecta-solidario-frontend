@@ -1,0 +1,147 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page { padding: $space-6; animation: fadeUp 0.3s ease; }
+
+.topBar {
+  @include flex(row, center, space-between);
+  margin-bottom: $space-6;
+  @include mobile { flex-direction: column; gap: $space-3; align-items: flex-start; }
+}
+
+.pageTitle {
+  font-family: $font-display;
+  font-size: $text-2xl;
+  font-weight: 900;
+  color: $green-deep;
+  letter-spacing: -0.02em;
+  span { color: $orange; font-style: italic; }
+}
+
+.filterBar {
+  @include flex(row, center, flex-start, $space-2);
+  margin-bottom: $space-5;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: $space-2 $space-4;
+  border-radius: $radius-full;
+  border: 1.5px solid $sand;
+  background: $white;
+  color: $gray-mid;
+  font-family: $font-body;
+  font-size: $text-xs;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover { border-color: $green-light; color: $green-mid; background: $green-pale; }
+  &.active { background: $green-mid; color: $white; border-color: $green-mid; box-shadow: 0 2px 8px rgba($green-mid, 0.3); }
+}
+
+// Tabela
+.tableWrap {
+  background: $white;
+  border-radius: $radius-lg;
+  border: 1px solid $sand;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    background: $cream;
+    border-bottom: 1px solid $sand;
+  }
+
+  th {
+    padding: $space-3 $space-5;
+    text-align: left;
+    font-size: $text-xs;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $gray-mid;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid lighten($sand, 5%);
+    transition: background $transition;
+    &:last-child { border-bottom: none; }
+    &:hover { background: lighten($cream, 2%); }
+  }
+
+  td {
+    padding: $space-4 $space-5;
+    font-size: $text-sm;
+    color: $charcoal;
+    vertical-align: middle;
+  }
+}
+
+.abrigoNome { font-weight: 600; color: $green-deep; margin-bottom: 2px; }
+.abrigoCidade { font-size: $text-xs; color: $gray-mid; }
+
+.progCell { min-width: 160px; }
+
+.progBar {
+  height: 6px;
+  background: $green-pale;
+  border-radius: $radius-full;
+  overflow: hidden;
+  margin-bottom: $space-1;
+}
+
+.progFill {
+  height: 100%;
+  border-radius: $radius-full;
+  background: $green-bright;
+  transition: width 0.6s ease;
+  &.high { background: $orange-light; }
+  &.full { background: $danger; }
+}
+
+.progMeta {
+  @include flex(row, center, space-between);
+  font-size: $text-xs;
+  color: $gray-mid;
+}
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: $text-xs; font-weight: 700;
+  padding: 4px 10px; border-radius: $radius-full;
+  &.active   { background: $success-pale; color: $success; }
+  &.inactive { background: $sand; color: $gray-mid; }
+  &.urgent   { background: $orange-pale;  color: $orange; box-shadow: 0 0 0 3px rgba($orange, 0.1); }
+}
+
+.rowActions { @include flex(row, center, flex-end, $space-2); }
+
+.iconBtn {
+  width: 32px; height: 32px;
+  border-radius: $radius-md;
+  border: 1.5px solid $sand;
+  background: $white;
+  @include flex-center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all $transition;
+
+  &.edit:hover   { border-color: $green-bright; background: $green-pale; transform: scale(1.1); }
+  &.delete:hover { border-color: $danger; background: $danger-pale; transform: scale(1.1); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+}
+
+.btnPrimary { @include btn-primary; }
+
+.empty {
+  text-align: center;
+  padding: $space-10;
+  color: $gray-light;
+  font-size: $text-sm;
+}

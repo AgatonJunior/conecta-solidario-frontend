@@ -1,0 +1,79 @@
+// ═══════════════════════════════════════
+// _mixins.scss
+// ═══════════════════════════════════════
+@use 'variables' as *;
+
+@mixin flex($dir: row, $align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 { gap: $gap; }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin card($p: $space-6) {
+  background: $white;
+  border-radius: $radius-lg;
+  padding: $p;
+  box-shadow: $shadow-sm;
+  border: 1px solid $sand;
+}
+
+@mixin scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $sand-dark transparent;
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb {
+    background: $sand-dark;
+    border-radius: $radius-full;
+  }
+}
+
+@mixin hover-lift {
+  transition: transform $transition, box-shadow $transition;
+  &:hover { transform: translateY(-2px); box-shadow: $shadow-md; }
+}
+
+@mixin btn-primary {
+  @include flex(row, center, center, $space-2);
+  background: $green-mid;
+  color: $white;
+  border: none;
+  border-radius: $radius-md;
+  padding: $space-2 $space-5;
+  font-family: $font-body;
+  font-size: $text-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $spring;
+  &:hover { background: $green-deep; transform: translateY(-1px); box-shadow: $shadow-md; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+}
+
+@mixin mobile  { @media (max-width: 640px)  { @content; } }
+@mixin tablet  { @media (max-width: 1024px) { @content; } }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

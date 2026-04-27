@@ -1,0 +1,191 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.sidebar {
+  width: $sidebar-w;
+  min-height: 100vh;
+  background: $green-deep;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 100;
+  transition: width $transition;
+  @include scrollbar;
+
+  // Textura sutil no fundo
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  &.collapsed {
+    width: $sidebar-col;
+
+    .logoText, .label, .badge,
+    .sectionTitle, .userInfo { display: none; }
+
+    .item  { justify-content: center; padding: $space-3; }
+    .logo  { justify-content: center; padding: $space-5 $space-3; }
+  }
+}
+
+// Logo
+.logo {
+  @include flex(row, center, flex-start, $space-3);
+  padding: $space-5;
+  border-bottom: 1px solid rgba($white, 0.07);
+  margin-bottom: $space-2;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+
+.logoIcon {
+  width: 36px; height: 36px;
+  border-radius: $radius-md;
+  background: $green-bright;
+  @include flex-center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba($green-bright, 0.4);
+}
+
+.logoText {
+  font-family: $font-display;
+  font-size: $text-lg;
+  font-weight: 900;
+  color: $white;
+  line-height: 1;
+  span { color: $orange-light; font-style: italic; }
+}
+
+// Nav
+.nav {
+  flex: 1;
+  padding: $space-2 $space-3;
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+  @include scrollbar;
+}
+
+.sectionTitle {
+  font-size: $text-xs;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba($white, 0.28);
+  padding: $space-4 $space-2 $space-2;
+}
+
+.item {
+  @include flex(row, center, flex-start, $space-3);
+  padding: $space-3 $space-3;
+  border-radius: $radius-md;
+  color: rgba($white, 0.55);
+  font-size: $text-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition;
+  margin-bottom: 2px;
+  position: relative;
+
+  &:hover {
+    background: rgba($white, 0.07);
+    color: rgba($white, 0.9);
+    .icon { transform: scale(1.1); }
+  }
+
+  &.active {
+    background: rgba($green-bright, 0.15);
+    color: $white;
+
+    .icon { color: $green-bright; }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 22%; height: 56%;
+      width: 3px;
+      background: $green-bright;
+      border-radius: 0 3px 3px 0;
+      box-shadow: 0 0 8px rgba($green-bright, 0.6);
+    }
+  }
+}
+
+.icon {
+  font-size: 17px;
+  width: 20px;
+  flex-shrink: 0;
+  transition: transform $transition;
+}
+
+.label { flex: 1; @include truncate; }
+
+.badge {
+  background: $orange;
+  color: $white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: $radius-full;
+  box-shadow: 0 2px 6px rgba($orange, 0.4);
+}
+
+// Footer
+.footer {
+  padding: $space-3;
+  border-top: 1px solid rgba($white, 0.07);
+  position: relative;
+  z-index: 1;
+}
+
+.userCard {
+  @include flex(row, center, flex-start, $space-3);
+  padding: $space-2 $space-2;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: background $transition;
+  &:hover { background: rgba($white, 0.07); }
+}
+
+.avatar {
+  width: 34px; height: 34px;
+  border-radius: $radius-full;
+  background: linear-gradient(135deg, $green-bright, darken($green-bright, 15%));
+  @include flex-center;
+  font-size: $text-xs;
+  font-weight: 700;
+  color: $white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba($green-bright, 0.3);
+}
+
+.userInfo {
+  flex: 1; min-width: 0;
+  h5 {
+    font-family: $font-body;
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $white;
+    @include truncate;
+  }
+  p { font-size: $text-xs; color: rgba($white, 0.4); }
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  color: rgba($white, 0.3);
+  cursor: pointer;
+  transition: color $transition;
+  padding: $space-1;
+  border-radius: $radius-sm;
+  &:hover { color: #f87171; background: rgba(#f87171, 0.1); }
+}
