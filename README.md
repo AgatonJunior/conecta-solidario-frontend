@@ -1,16 +1,84 @@
-# React + Vite
+# 💙 Conecta Solidário - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web do **Conecta Solidário**, uma plataforma para gestão de abrigos, voluntários e pessoas em situação de vulnerabilidade em tempo real.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌐 Demonstração
 
-## React Compiler
+🚀 **Acesse o projeto online:**  
+👉 https://conecta-solidario-ajuda-org.vercel.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🖼️ Preview do sistema
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![Preview do sistema](./preview.png)
+
+> 💡 Interface focada em clareza, rapidez e uso em cenários críticos.
+
+---
+
+## 🎯 Problema que resolve
+
+Em situações emergenciais (enchentes, crises, etc.), a gestão de informações é desorganizada.
+
+O sistema resolve isso ao:
+
+- Centralizar dados de abrigos
+- Mostrar vagas disponíveis em tempo real
+- Organizar voluntários
+- Melhorar a tomada de decisão
+
+---
+
+## 🧠 Funcionalidades
+
+### 🏠 Abrigos
+- Listagem de abrigos
+- Status (ativo, inativo, urgente)
+- Cálculo de ocupação
+- Controle de vagas
+
+### 🧑 Voluntários
+- Cadastro de voluntários
+- Associação com habilidades
+
+### 📊 Interface
+- Filtros dinâmicos
+- Feedback visual de lotação
+- UI responsiva
+
+---
+
+## 🛠️ Tecnologias
+
+- React  
+- Vite  
+- Axios  
+- SCSS Modules  
+- Hooks customizados  
+
+---
+
+## ⚙️ Decisões Técnicas
+
+- Separação de lógica com hooks
+- Uso de Axios para melhor controle de requisições
+- SCSS Modules para isolamento de estilos
+- Estrutura escalável e organizada
+
+---
+
+## 🔌 Backend (Produção)
+
+🌐 API online:  
+👉 https://api-conecta-solidario-org-ajuda.onrender.com
+
+```env
+VITE_API_URL=https://api-conecta-solidario-org-ajuda.onrender.com
+
+git clone https://github.com/AgatonJunior/conecta-solidario-frontend.git
+cd conecta-solidario-frontend
+npm install
+npm run dev
