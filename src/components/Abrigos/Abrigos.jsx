@@ -5,10 +5,10 @@ import s from './Abrigos.module.scss';
 const FILTERS = ['Todos', 'Ativos', 'Inativos', 'Urgentes'];
 
 function getStatus(a) {
-  const pct = ((a.capacidade - a.vagas_livres) / a.capacidade) * 100;
-  if (!a.ativo)  return { label: 'Inativo', cls: 'inactive' };
-  if (pct >= 90) return { label: '🔥 Urgente', cls: 'urgent' };
-  return               { label: '● Ativo',  cls: 'active'  };
+  const p = pct(a);
+  if (!a.ativo)  return { label: 'Inativo',    cls: 'inactive' };
+  if (p >= 90)   return { label: '🔥 Urgente', cls: 'urgent'   };
+  return               { label: '● Ativo',    cls: 'active'   };
 }
 
 function pct(a) {
@@ -31,10 +31,73 @@ function Skeleton() {
   );
 }
 
-export default function Abrigos() {
-  const { abrigos, loading, erro, deletar } = useAbrigos();
+const FORM_VAZIO = { nome: '', endereco: '', cidade: '', telefone: '', capacidade: '', vagas_livres: '' };
+
+function Modal({ inicial, onSalvar, onFechar, salvando }) {
+  const [form, setForm] = useState(inicial || FORM_VAZIO);
+  const editando = Boolean(inicial?.id);
+
+  const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const submit = e => { e.preventDefault(); onSalvar(form); };
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+    }}>
+      <div style={{
+        background: 'var(--bg, #fff)', borderRadius: 16, padding: 32,
+        width: '100%', maxWidth: 480, boxShadow: '0 8px 40px rgba(0,0,0,0.18)'
+      }}>
+        <h3 style={{ margin: '0 0 20px' }}>{editando ? 'Editar abrigo' : 'Novo abrigo'}</h3>
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {[
+            { name: 'nome',        label: 'Nome',         type: 'text'   },
+            { name: 'endereco',    label: 'Endereço',     type: 'text'   },
+            { name: 'cidade',      label: 'Cidade',       type: 'text'   },
+            { name: 'telefone',    label: 'Telefone',     type: 'text'   },
+            { name: 'capacidade',  label: 'Capacidade',   type: 'number' },
+            { name: 'vagas_livres',label: 'Vagas livres', type: 'number' },
+          ].map(f => (
+            <div key={f.name} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 500 }}>{f.label}</label>
+              <input
+                name={f.name} type={f.type} value={form[f.name]}
+                onChange={handle} required
+                style={{
+                  border: '1px solid #ddd', borderRadius: 8,
+                  padding: '8px 12px', fontSize: 14
+                }}
+              />
+            </div>
+          ))}
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button
+              type="button" onClick={onFechar}
+              style={{ flex: 1, padding: '10px', borderRadius: 8, border: '1px solid #ddd', cursor: 'pointer', background: 'none' }}
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit" disabled={salvando}
+              style={{ flex: 1, padding: '10px', borderRadius: 8, border: 'none', background: '#2563eb', color: '#fff', fontWeight: 600, cursor: 'pointer' }}
+            >
+              {salvando ? 'Salvando...' : editando ? 'Salvar' : 'Cadastrar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+
+export default function Abrigos({ search = '' }) {
+  const { abrigos, loading, erro, criar, atualizar, deletar } = useAbrigos();
   const [filter,    setFilter]    = useState('Todos');
   const [deletando, setDeletando] = useState(null);
+  const [modal,     setModal]     = useState(null);
+  const [salvando,  setSalvando]  = useState(false);
 
   const handleDeletar = async (id) => {
     if (!confirm('Excluir este abrigo?')) return;
@@ -44,18 +107,47 @@ export default function Abrigos() {
     setDeletando(null);
   };
 
-  const filtrados = abrigos.filter(a => {
-    if (filter === 'Ativos')   return a.ativo;
-    if (filter === 'Inativos') return !a.ativo;
-    if (filter === 'Urgentes') return pct(a) >= 90;
-    return true;
-  });
+  const handleSalvar = async (form) => {
+    setSalvando(true);
+    const payload = {
+      ...form,
+      capacidade:   Number(form.capacidade),
+      vagas_livres: Number(form.vagas_livres),
+    };
+    const r = modal?.id
+      ? await atualizar(modal.id, payload)
+      : await criar(payload);
+    setSalvando(false);
+    if (!r.sucesso) { alert('Erro: ' + r.erro); return; }
+    setModal(null);
+  };
+
+  const filtrados = abrigos
+    .filter(a => {
+      if (filter === 'Ativos')   return a.ativo;
+      if (filter === 'Inativos') return !a.ativo;
+      if (filter === 'Urgentes') return pct(a) >= 90;
+      return true;
+    }).filter(a => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return a.nome.toLowerCase().includes(q) || a.cidade.toLowerCase().includes(q);
+    });
 
   return (
     <div className={s.page}>
+      {modal !== null && (
+        <Modal
+          inicial={modal === 'novo' ? null : modal}
+          onSalvar={handleSalvar}
+          onFechar={() => setModal(null)}
+          salvando={salvando}
+        />
+      )}
       <div className={s.topBar}>
         <h2 className={s.pageTitle}>Abrigos <span>cadastrados</span></h2>
-        <button className={s.btnPrimary}>＋ Novo abrigo</button>
+        {}
+        <button className={s.btnPrimary} onClick={() => setModal('novo')}>＋ Novo abrigo</button>
       </div>
 
       <div className={s.filterBar}>
@@ -100,7 +192,8 @@ export default function Abrigos() {
                     <td><span className={`${s.badge} ${s[st.cls]}`}>{st.label}</span></td>
                     <td>
                       <div className={s.rowActions}>
-                        <button className={`${s.iconBtn} ${s.edit}`}>✏️</button>
+                        {}
+                        <button className={`${s.iconBtn} ${s.edit}`} onClick={() => setModal(a)}>✏️</button>
                         <button className={`${s.iconBtn} ${s.delete}`} disabled={deletando === a.id} onClick={() => handleDeletar(a.id)}>
                           {deletando === a.id ? '⏳' : '🗑️'}
                         </button>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import s from './Navbar.module.scss';
 
 const TITLES = {
@@ -9,8 +8,7 @@ const TITLES = {
   relatorios:   'Relatórios',
 };
 
-export default function Navbar({ page }) {
-  const [search, setSearch] = useState('');
+export default function Navbar({ page, search, onSearch }) {
   return (
     <header className={s.navbar}>
       <div className={s.left}>
@@ -22,7 +20,7 @@ export default function Navbar({ page }) {
           <input
             placeholder="Buscar..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => onSearch(e.target.value)}
           />
         </div>
         <button className={s.notifBtn}>

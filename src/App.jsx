@@ -22,6 +22,7 @@ function AppInner() {
   const { logado, logout } = useAuth();
   const [page,      setPage]      = useState('dashboard');
   const [collapsed, setCollapsed] = useState(false);
+  const [search,    setSearch]    = useState('');
 
   if (!logado) return <Login />;
 
@@ -29,16 +30,19 @@ function AppInner() {
 
   return (
     <div className={s.layout}>
+      {}
       <Sidebar
         active={page}
-        onNavigate={setPage}
+        onNavigate={(p) => { setPage(p); setSearch(''); }}
         collapsed={collapsed}
         onToggle={() => setCollapsed(c => !c)}
+        onLogout={logout}
       />
       <main className={`${s.main} ${collapsed ? s.collapsed : ''}`}>
-        <Navbar page={page} onLogout={logout} />
+        {}
+        <Navbar page={page} search={search} onSearch={setSearch} />
         <div className={s.content}>
-          <Page />
+          <Page search={search} />
         </div>
       </main>
     </div>
