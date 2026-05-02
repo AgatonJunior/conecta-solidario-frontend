@@ -49,12 +49,12 @@ export default function Sidebar({ active, onNavigate, collapsed, onToggle, onLog
             <p>admin@sistema.com</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {/* BUG CORRIGIDO: botão de colapso separado do botão de logout */}
+            {}
             <button className={s.logoutBtn} onClick={onToggle} title="Recolher menu">
               {collapsed ? '→' : '←'}
             </button>
             <button className={s.logoutBtn} onClick={onLogout} title="Sair do sistema" style={{ fontSize: 14 }}>
-              ⏻
+            ⏻
             </button>
           </div>
         </div>
