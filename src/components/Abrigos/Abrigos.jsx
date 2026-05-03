@@ -55,7 +55,7 @@ function Modal({ inicial, onSalvar, onFechar, salvando }) {
             { name: 'nome',        label: 'Nome',         type: 'text'   },
             { name: 'endereco',    label: 'Endereço',     type: 'text'   },
             { name: 'cidade',      label: 'Cidade',       type: 'text'   },
-            { name: 'telefone',    label: 'Telefone',     type: 'text'   },
+            { name: 'telefone',    label: 'Telefone',     type: 'number'   },
             { name: 'capacidade',  label: 'Capacidade',   type: 'number' },
             { name: 'vagas_livres',label: 'Vagas livres', type: 'number' },
           ].map(f => (
